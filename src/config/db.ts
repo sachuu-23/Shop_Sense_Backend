@@ -9,3 +9,17 @@ const pool = new Pool({
     port: Number(process.env.POSTGRES_PORT)
     //in port number because in env its like string ,but here want number so we do need to convert it 
 });
+    const testConnection = async() =>{
+        try{
+            await pool.query("SELECT NOW()");
+            console.log("Pool and Database are connected");
+        }catch(error){
+            console.error("Database and Pool is not connected, and the error is:",error);
+
+        }
+    }
+
+    testConnection();
+
+
+export default pool ;
