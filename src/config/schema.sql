@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS product(
 CREATE TABLE IF NOT EXISTS product_variant(
     product_variant_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES product(product_id) ON DELETE CASCADE,
-    product_specifications VARCHAR(100) UNIQUE NOT NULL ,
+    stock_keeping_unit VARCHAR(100) UNIQUE NOT NULL ,
     product_size VARCHAR(50),--this means it can be null or not 
     product_colour VARCHAR(50),
     product_price Numeric(10,2) NOT NULL,--here numeric(10,2 means that point left 10 digit is allowed and decimal right just 2 digit extra)
