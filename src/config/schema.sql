@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS product_variant(
     product_colour VARCHAR(50),
     product_price Numeric(10,2) NOT NULL,--here numeric(10,2 means that point left 10 digit is allowed and decimal right just 2 digit extra)
     is_active BOOLEAN DEFAULT true,
-   
+    created_at TIMESTAMPTZ DEFAULT now()
 );
 --ON DELETE CASCADE MEANS IF THE SPECIFIC ID IN PARENT IS DELETED THEN DELETE HERE ALSO 
 --product specifications is unique and null because for eg a product oppo f11 in its specifictaiton it will be like oppo f11, 8 gb ram , 256 gm rom and this so yeah this des should not be same with other property in the same column.
