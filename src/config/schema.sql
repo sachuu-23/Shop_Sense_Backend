@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS product(
 );
 
 --PRODUCT VARIANT TABLE 
+
 CREATE TABLE IF NOT EXISTS product_variant(
     product_variant_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID REFERENCES product(product_id) ON DELETE CASCADE,
