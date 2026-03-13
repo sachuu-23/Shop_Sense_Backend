@@ -12,6 +12,15 @@ export const registerUser = async (data : UserInput)=>{
     }
 
     const HashPassword = await bcrypt.hash(data.password,SaltRound);
+    
+    const newUserData = {
+        username : data.username,
+        email : data.email,
+        password : HashPassword
+    }
+
+    const registerUsers = await createUser(newUserData);
+
 
     }
 }
