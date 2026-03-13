@@ -6,6 +6,9 @@ interface CreateUserInput {
     email  : string,
     password : string
 };
+interface FindUser{
+    email : string
+}
 
 //fucnction to insert the user details and mark it export , because we will call this function from other file with data.
  export const createUser = async (data : CreateUserInput)=>{
@@ -20,5 +23,21 @@ interface CreateUserInput {
     );
     return result.rows[0];
 };
+
+//Now this function is for findingt the user using email 
+//for select there is no need to write returning
+
+export const findUserByEmail = async (email : string)=>{
+    const result = await pool.query(
+        `SELECT * FROM users 
+         WHERE email = $1`,
+        [
+            data.email
+        ]
+
+        
+    );
+    return result.rows[0];
+}
 
 
