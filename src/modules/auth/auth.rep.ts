@@ -1,3 +1,5 @@
+//5
+
 import pool from "../../config/db";
 //do create the interface if there are multiple things coming as an parmater in our input data
 //in ts this is also called as type definition where we have to before hand defined that what kind of data is coming and only those values can come which its set in interface
@@ -17,7 +19,7 @@ interface refreshTokenInput {
 
 export const createUser = async (data : CreateUserByInput)=>{
     const result = await pool.query(
-        `INSERT INTO users (username, email, pasword_hash)
+        `INSERT INTO users (username, email, password_hash)
         VALUES($1,$2,$3) RETURNING *`,
         [
             data.username,
@@ -40,6 +42,8 @@ export const findUserByEmail = async (email : string)=>{
     return result.rows[0];
 };
 
+
+//Insert refresh token which is hashd into the rerfresh token table 
 export const saveRefreshToken = async (data : refreshTokenInput)=>{
     const result = await pool.query(
         `INSERT INTO refresh_token (user_id, token_hash, expires_at)
@@ -53,4 +57,36 @@ export const saveRefreshToken = async (data : refreshTokenInput)=>{
         
     );
     return result.rows[0];
-}
+};
+
+
+//To find refrehtoken for regenerating access token
+
+export const findRefreshToken = async (refresh_token : string)=>{
+    const result = await pool.query(
+        `SELECT * FROM refresh_token
+        WHERE token_hash =$1`,
+        [
+            refresh_token
+        ]
+    );
+    return result.rows[0];
+};
+
+
+//To revoke the token_hash from database
+
+
+export const revokedRefreshToken = async (refresh_token : string) =>{
+    const result = await pool.query(
+        `UPDATE refresh_token
+         SET revoked = True 
+         WHERE token_hash = $1`,
+        
+        [
+            refresh_token
+        ]
+    );
+};
+   
+
