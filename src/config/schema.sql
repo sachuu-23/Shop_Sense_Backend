@@ -1,3 +1,5 @@
+--4
+
 --In this file we are going to write all our schema for this project , like users, prodcuts, refresh token, inventory etc , basically defiening the structure of how our data will be stored in our database and the relationship between those tables.
 
 --USER TABLE 

@@ -1,3 +1,6 @@
+//3
+
+
 //this pool helps us in building multiple conneciton with database , just like connections are there come use and this connection will be idle after the use.
 import {Pool} from "pg";    
 

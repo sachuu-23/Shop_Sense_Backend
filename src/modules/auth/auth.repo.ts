@@ -4,20 +4,10 @@ import pool from "../../config/db";
 //do create the interface if there are multiple things coming as an parmater in our input data
 //in ts this is also called as type definition where we have to before hand defined that what kind of data is coming and only those values can come which its set in interface
 
-interface CreateUserByInput {
-    username : string,
-    email : string ,
-    password : string
-}
-
-interface refreshTokenInput {
-    user_id :string,
-    token_hash : string,
-    expires_at : string
-}
+import {UserInput, refreshTokenInput} from "./auth.types";
 
 
-export const createUser = async (data : CreateUserByInput)=>{
+export const createUser = async (data : UserInput)=>{
     const result = await pool.query(
         `INSERT INTO users (username, email, password_hash)
         VALUES($1,$2,$3) RETURNING *`,
@@ -75,7 +65,6 @@ export const findRefreshToken = async (refresh_token : string)=>{
 
 
 //To revoke the token_hash from database
-
 
 export const revokedRefreshToken = async (refresh_token : string) =>{
     const result = await pool.query(
