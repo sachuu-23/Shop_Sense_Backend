@@ -13,3 +13,8 @@ export interface refreshTokenInput{
     expires_at : Date
 
 }
+
+export interface loginInput {
+    email : string,
+    password : string
+}

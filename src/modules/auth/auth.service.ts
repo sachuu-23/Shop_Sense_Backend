@@ -6,15 +6,17 @@ import jwt from  "jsonwebtoken";
 import crypto from "crypto";
 
 
-
-
-
 const SaltRound = 12;
 // this is a salt constant that doesnt change , which means a config kind of thing , this salt is important from hashing password.
 
 
 
 //UserRegister ->
+
+
+
+
+
 export const registerUser = async (data : UserInput)=>{
     try{
 
@@ -82,7 +84,9 @@ export const registerUser = async (data : UserInput)=>{
 
 //UserLogin -> 
 
-const userLogin = async (data:loginInput)=>{
+
+
+const UserLogin = async (data:loginInput)=>{
 
     try{
     const loginCheck = await findUserByEmail(data.email);
@@ -101,7 +105,45 @@ const userLogin = async (data:loginInput)=>{
 
     const jwt_signature = jwt.sign({
         user_id : loginCheck.user_id},
-        process.env.JWT_SECRET!,{expiresIn : "15m"})
+        process.env.JWT_SECRET!,{expiresIn : "15m"});
+
+        const raw_refresh_token = crypto.randomBytes(32).toString("hex");
+
+        const hashed_refresh_token = crypto.createHash("sha256").update(raw_refresh_token).digest("hex");
+
+        const expiresAt = new Date(Date.now() + 7 * 24* 60* 60 * 1000);
+
+        const final_token =  await saveRefreshToken({
+            user_id : loginCheck.user_id,
+            token_hash : hashed_refresh_token,
+            expires_at : expiresAt
+
+        });
+
+
+        return {
+            accessToken : jwt_signature,
+            refreshToken : raw_refresh_token
+        };   
+    }
+
+   catch(error){
+    throw error;
+   }
+};
+
+
+
+
+//Client need new Access Token which is JWT token
+//So we need to write the function for generating new JWT token when user send raw refresh token from cookie from client side 
+
+
+
+
+const refreshAcessToken = async (RefreshToken : string)=>{
+    try{
+         const HashToken  = crypto.createHash("sha256").update(RefreshToken).digest("hex");
 
     }
 
