@@ -1,10 +1,20 @@
 //6
-import {UserInput} from "./auth.types";
+import {UserInput,loginInput} from "./auth.types";
 import {findUserByEmail,createUser,saveRefreshToken} from "./auth.repo";
 import bcrypt from "bcrypt";
 import jwt from  "jsonwebtoken";
 import crypto from "crypto";
-const SaltRound = 12;// this is a salt constant that doesnt change , which means a config kind of thing , this salt is important from hashing password.
+
+
+
+
+
+const SaltRound = 12;
+// this is a salt constant that doesnt change , which means a config kind of thing , this salt is important from hashing password.
+
+
+
+//UserRegister ->
 export const registerUser = async (data : UserInput)=>{
     try{
 
@@ -39,14 +49,17 @@ export const registerUser = async (data : UserInput)=>{
                                                   
     //here we generate refresh token using crypto , but we never store raw token in out database , we need to hash it but using diff hashing concepts.
 
-    const refresh_token = crypto.randomBytes(32).toString("hex");//return this to controller ,as this is used as refreshToken in client side and is stored in cookies , whcih is http only 
+    const refresh_token = crypto.randomBytes(32).toString("hex");
+    
+    
+    //return this to controller ,as this is used as refreshToken in client side and is stored in cookies , whcih is http only 
 
     //random bytes we choose to be 32 = 256 bits of});
 //whcih outputs the data as 256 bits , so there is no use of geenrating of large values.
 
     const hashed_refresh_token = crypto.createHash("sha256").update(refresh_token).digest("hex");
 
-    const expiresAt  = new Date(Date.now() + 7*24*60*60*1000);
+    const expiresAt  = new Date(Date.now() + 7*24*60*60*1000);//7 days
 
     const Token_result = await saveRefreshToken({
         user_id : registerUsers.user_id,
@@ -63,3 +76,65 @@ export const registerUser = async (data : UserInput)=>{
  catch(error){
     throw error;
 }
+};
+
+
+
+//UserLogin -> 
+
+const userLogin = async (data:loginInput)=>{
+
+    try{
+    const loginCheck = await findUserByEmail(data.email);
+
+    if(!loginCheck){
+        throw new Error("Invlaid Credentials");
+    }
+    //As user exist compare the password usinh bcrypt compare
+
+    const ComparePassword = await bcrypt.compare(data.password,loginCheck.password_hash) ;
+
+    if(!ComparePassword){
+        throw new Error("Invalid Credentials");
+    }
+
+
+    const jwt_signature = jwt.sign({
+        user_id : loginCheck.user_id},
+        process.env.JWT_SECRET!,{expiresIn : "15m"})
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
