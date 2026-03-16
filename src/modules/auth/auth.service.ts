@@ -34,11 +34,12 @@ export const registerUser = async (data : UserInput)=>{
     //here in registersUser we will get back userId which we will use further 
     const registerUsers = await createUser(newUserData);
     const jwt_signature = jwt.sign({user_id : registerUsers.user_id},process.env.JWT_SECRET!,{expiresIn: "15m"});
-    
 
+    
+                                                  
     //here we generate refresh token using crypto , but we never store raw token in out database , we need to hash it but using diff hashing concepts.
 
-    const refresh_token = crypto.randomBytes(32).toString("hex");
+    const refresh_token = crypto.randomBytes(32).toString("hex");//return this to controller ,as this is used as refreshToken in client side and is stored in cookies , whcih is http only 
 
     //random bytes we choose to be 32 = 256 bits of});
 //whcih outputs the data as 256 bits , so there is no use of geenrating of large values.
@@ -47,15 +48,18 @@ export const registerUser = async (data : UserInput)=>{
 
     const expiresAt  = new Date(Date.now() + 7*24*60*60*1000);
 
-    const result = await saveRefreshToken({
+    const Token_result = await saveRefreshToken({
         user_id : registerUsers.user_id,
         token_hash : hashed_refresh_token, 
         expires_at : expiresAt });
 
         return {
             accessToken : jwt_signature,
-            refreshToken :
-        }
+            refreshToken : refresh_token
+        };
+
 
 }
-} catch()
+ catch(error){
+    throw error;
+}
