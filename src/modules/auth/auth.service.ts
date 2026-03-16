@@ -1,6 +1,6 @@
 //6
 import {UserInput,loginInput} from "./auth.types";
-import {findUserByEmail,createUser,saveRefreshToken} from "./auth.repo";
+import {findUserByEmail,createUser,saveRefreshToken,findRefreshToken} from "./auth.repo";
 import bcrypt from "bcrypt";
 import jwt from  "jsonwebtoken";
 import crypto from "crypto";
@@ -141,9 +141,41 @@ const UserLogin = async (data:loginInput)=>{
 
 
 
-const refreshAcessToken = async (RefreshToken : string)=>{
+export const refreshAcessToken = async (RefreshToken : string)=>{
     try{
          const HashToken  = crypto.createHash("sha256").update(RefreshToken).digest("hex");
+
+         const FindTokenInDatabase = await findRefreshToken(HashToken);//heer we will get the userid and remainig details , so we will start using this an object to use the fetaures of specific column ok.
+
+         if(!FindTokenInDatabase){
+            throw new Error("Invalid refresh Token");
+         }
+
+         if(FindTokenInDatabase.revoked){
+            throw new Error("Invalid refresh Token");
+         }
+
+         if(FindTokenInDatabase.expires_at<new Date()){
+            throw new Error("Invalid refresh Token");
+         }
+
+         const NewJwt = jwt.sign({
+            user_id : FindTokenInDatabase.user_id
+         },
+         process.env.JWT_SECRET!,
+          {expiresIn : "15m"}
+
+        );
+
+        return {
+            accessToken : NewJwt
+        };
+
+
+
+    }
+    catch(error){
+        throw error;
 
     }
 
