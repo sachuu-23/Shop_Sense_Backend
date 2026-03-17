@@ -90,7 +90,7 @@ export const registerUser = async (data : UserInput)=>{
 
 
 
-const UserLogin = async (data:loginInput)=>{
+export const UserLogin = async (data:loginInput)=>{
 
     try{
     const loginCheck = await findUserByEmail(data.email);
@@ -195,8 +195,16 @@ export const UserLogout = async(rawToken : string)=>{
         const hashToken = crypto.createHash("sha256").update(rawToken).digest("hex");
 
         const RevokedToken = await revokedRefreshToken(hashToken);
+
+        return {message : "Logged out Successfully"};
     }
-}
+    catch(error){
+        throw error;
+    }
+};
+
+
+//With this i think we are done with service layer of Authentication.
 
 
 
