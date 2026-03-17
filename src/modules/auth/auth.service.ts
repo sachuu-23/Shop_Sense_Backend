@@ -1,6 +1,10 @@
 //6
 import {UserInput,loginInput} from "./auth.types";
-import {findUserByEmail,createUser,saveRefreshToken,findRefreshToken} from "./auth.repo";
+import {findUserByEmail,
+        createUser,
+        saveRefreshToken,
+        findRefreshToken,
+        revokedRefreshToken} from "./auth.repo";
 import bcrypt from "bcrypt";
 import jwt from  "jsonwebtoken";
 import crypto from "crypto";
@@ -179,13 +183,20 @@ export const refreshAcessToken = async (RefreshToken : string)=>{
 
     }
 
+};
+
+
+
+//LogoutUser ->
+
+
+export const UserLogout = async(rawToken : string)=>{
+    try{
+        const hashToken = crypto.createHash("sha256").update(rawToken).digest("hex");
+
+        const RevokedToken = await revokedRefreshToken(hashToken);
+    }
 }
-
-
-
-
-
-
 
 
 
