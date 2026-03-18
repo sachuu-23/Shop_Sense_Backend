@@ -4,7 +4,10 @@
 import {Request, Response, NextFunction} from "express";
 import {registerUser} from "./auth.service";
 
-const RegisterUser = async(req:Request, res:Response)=>{
+
+//Register User->
+
+ export const RegisterUser = async(req:Request, res:Response)=>{
     try{
         const {username, email, password} = req.body;
         //here we have used the logic of destructuring , whcich means we extract username , email and password from our body.
@@ -34,3 +37,11 @@ const RegisterUser = async(req:Request, res:Response)=>{
 };
 
 //if you are sending an error from sevice layer to controller in that case during the compile time ts cannot identify the error, so we do need to explicitly add error instanceofe Error && error.message which means if the error is an error messgae and if both are true or not.
+
+
+
+//Login User -> 
+
+
+export const LoginUser = async
+
