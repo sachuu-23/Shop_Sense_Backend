@@ -33,4 +33,4 @@ const RegisterUser = async(req:Request, res:Response)=>{
 
 };
 
-//if you are sending an error 
+//if you are sending an error from sevice layer to controller in that case during the compile time ts cannot identify the error, so we do need to explicitly add error instanceofe Error && error.message which means if the error is an error messgae and if both are true or not.
