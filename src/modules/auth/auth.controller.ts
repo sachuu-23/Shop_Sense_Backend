@@ -2,7 +2,7 @@
 //This layer also takes care of rsponse and diff status codes.
 
 import {Request, Response, NextFunction} from "express";
-import {registerUser} from "./auth.service";
+import {registerUser,UserLogin,UserLogout} from "./auth.service";
 
 
 //Register User->
@@ -43,5 +43,25 @@ import {registerUser} from "./auth.service";
 //Login User -> 
 
 
-export const LoginUser = async
+export const LoginUser = async(req:Request, res:Response)=>{
+    try{
+        const {email ,password} = req.body;
+        const result = await UserLogin({email, password});
+        res.status(201).json({
+            result
+        });
+    }
+    catch(error){
+        if(error instanceof Error && error.message  === "Invalid Credentials"){
+            res.status(409).json({
+                message : "Inavlid Credentials"
+            });
+        }
+        else{
+            res.status(500).json({
+                message :"Unexpected Server Error"
+            });
+        }
+    }
+}
 
