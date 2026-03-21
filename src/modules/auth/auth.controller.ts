@@ -114,7 +114,7 @@ export const RefreshAccessToken = async(req:Request,res:Response)=>{
         });
     }catch(error){
         if(error instanceof Error && error.message === "Invalid Refresh Token"){
-            res.status(401).json({
+            res.status(404).json({
                 message : "Invalid Refresh Token"
             });
         }
@@ -126,6 +126,7 @@ export const RefreshAccessToken = async(req:Request,res:Response)=>{
 
     }
 };
+
 
 
 //getMe->
@@ -146,13 +147,14 @@ export const GetMe = async(req:Request, res:Response)=>{
         });
     }catch(error){
          if(error instanceof Error && error.message === "User Doesn't Exist"){
-            res.status(401).json({
+            res.status(404).json({
                 message : "User Doesn't Exist"
             });
          }else{
-            res.status(500)json({
+            res.status(500).json({
                 message : "Unexpected Server Error"
             })
-         }
+        };
     }
-}
+};
+
