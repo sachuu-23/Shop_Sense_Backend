@@ -4,7 +4,7 @@
 //This layer also takes care of rsponse and diff status codes.
 
 import {Request, Response, NextFunction} from "express";
-import {registerUser,UserLogin,UserLogout,refreshAccessToken} from "./auth.service";
+import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth.service";
 
 
 //Register User->
@@ -132,6 +132,27 @@ export const RefreshAccessToken = async(req:Request,res:Response)=>{
 
 export const GetMe = async(req:Request, res:Response)=>{
     try{
-        const userId = req.user.user_id;
+        const userId = req.user?.user_id;//here ? is needed because in express.d.ts file we define user as optional , and somtime it can be undefined ,so to handle that we use ?
+        if(!userId){
+            return res.status(401).json({
+                message: "Unauthorized"
+
+            });
+        }
+
+        const getUserDetail= await getMe(userId);
+        res.status(200).json({
+            result : getUserDetail
+        });
+    }catch(error){
+         if(error instanceof Error && error.message === "User Doesn't Exist"){
+            res.status(401).json({
+                message : "User Doesn't Exist"
+            });
+         }else{
+            res.status(500)json({
+                message : "Unexpected Server Error"
+            })
+         }
     }
 }

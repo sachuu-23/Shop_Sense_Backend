@@ -146,7 +146,7 @@ export const UserLogin = async (data:loginInput)=>{
 //RefreshAccessToken->
 
 
-export const refreshAcessToken = async (RefreshToken : string)=>{
+export const refreshAccessToken = async (RefreshToken : string)=>{
     try{
          const HashToken  = crypto.createHash("sha256").update(RefreshToken).digest("hex");
 
