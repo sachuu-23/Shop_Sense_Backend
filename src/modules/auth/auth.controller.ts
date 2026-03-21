@@ -47,13 +47,13 @@ export const LoginUser = async(req:Request, res:Response)=>{
     try{
         const {email ,password} = req.body;
         const result = await UserLogin({email, password});
-        res.status(201).json({
+        res.status(200).json({
             result
         });
     }
     catch(error){
         if(error instanceof Error && error.message  === "Invalid Credentials"){
-            res.status(409).json({
+            res.status(401).json({
                 message : "Inavlid Credentials"
             });
         }
@@ -63,5 +63,31 @@ export const LoginUser = async(req:Request, res:Response)=>{
             });
         }
     }
-}
+};
 
+
+
+//Logout User->
+
+
+
+export const logoutUser = async(req:Request,res:Response)=>{
+     try{
+        const token = req.cookies.refreshToken;
+        if(!token){
+            return res.status(400).json({
+                message : "Token is missing"
+            });
+        }
+        const logout = await UserLogout(token);
+        res.status(200).json({
+            message : logout
+        });
+
+     }
+     catch(error){
+        res.status(500).json({
+            message : "Unexpected server Error"
+        })
+     }
+}
