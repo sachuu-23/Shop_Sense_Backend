@@ -1,8 +1,10 @@
+//7
+
 //In this layer, our task is to take input which is coming from the user and extracting important stuffs according to the requirment and then forwarding it to service layer.
 //This layer also takes care of rsponse and diff status codes.
 
 import {Request, Response, NextFunction} from "express";
-import {registerUser,UserLogin,UserLogout} from "./auth.service";
+import {registerUser,UserLogin,UserLogout,refreshAccessToken} from "./auth.service";
 
 
 //Register User->
@@ -90,4 +92,46 @@ export const logoutUser = async(req:Request,res:Response)=>{
             message : "Unexpected server Error"
         })
      }
+}
+
+
+
+//RefreshAccessToken->
+
+export const RefreshAccessToken = async(req:Request,res:Response)=>{
+    try{
+        
+        const rawToken = req.cookies.refreshToken;
+
+        if(!rawToken){
+            return res.status(400).json({
+                message : "Token is missing"
+            })
+        }
+        const regenerateToken = await refreshAccessToken(rawToken);
+        res.status(200).json({
+            result : regenerateToken
+        });
+    }catch(error){
+        if(error instanceof Error && error.message === "Invalid Refresh Token"){
+            res.status(401).json({
+                message : "Invalid Refresh Token"
+            });
+        }
+        else{
+            res.status(500).json({
+                message : "Unexpected Server Error"
+            })
+        };
+
+    }
+};
+
+
+//getMe->
+
+export const GetMe = async(req:Request, res:Response)=>{
+    try{
+        const userId = req.user.user_id;
+    }
 }

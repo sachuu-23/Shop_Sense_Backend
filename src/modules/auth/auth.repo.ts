@@ -32,6 +32,17 @@ export const findUserByEmail = async (email : string)=>{
     return result.rows[0];
 };
 
+export const findUserById = async(user_id :string)=>{
+    const result = await pool.query(
+        `SELECT * FROM users
+        WHERE user_id = $1`,
+        [
+            user_id
+        ]
+    );
+    return result.rows[0];
+}
+
 
 //Insert refresh token which is hashd into the rerfresh token table 
 export const saveRefreshToken = async (data : refreshTokenInput)=>{

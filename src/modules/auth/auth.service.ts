@@ -4,7 +4,8 @@ import {findUserByEmail,
         createUser,
         saveRefreshToken,
         findRefreshToken,
-        revokedRefreshToken} from "./auth.repo";
+        revokedRefreshToken,
+        findUserById} from "./auth.repo";
 import bcrypt from "bcrypt";
 import jwt from  "jsonwebtoken";
 import crypto from "crypto";
@@ -98,7 +99,7 @@ export const UserLogin = async (data:loginInput)=>{
     if(!loginCheck){
         throw new Error("Invlaid Credentials");
     }
-    //As user exist compare the password usinh bcrypt compare
+    //As user exist compare the password using bcrypt compare
 
     const ComparePassword = await bcrypt.compare(data.password,loginCheck.password_hash) ;
 
@@ -142,7 +143,7 @@ export const UserLogin = async (data:loginInput)=>{
 //Client need new Access Token which is JWT token
 //So we need to write the function for generating new JWT token when user send raw refresh token from cookie from client side 
 
-
+//RefreshAccessToken->
 
 
 export const refreshAcessToken = async (RefreshToken : string)=>{
@@ -152,15 +153,15 @@ export const refreshAcessToken = async (RefreshToken : string)=>{
          const FindTokenInDatabase = await findRefreshToken(HashToken);//heer we will get the userid and remainig details , so we will start using this an object to use the fetaures of specific column ok.
 
          if(!FindTokenInDatabase){
-            throw new Error("Invalid refresh Token");
+            throw new Error("Invalid Refresh Token");
          }
 
          if(FindTokenInDatabase.revoked){
-            throw new Error("Invalid refresh Token");
+            throw new Error("Invalid Refresh Token");
          }
 
          if(FindTokenInDatabase.expires_at<new Date()){
-            throw new Error("Invalid refresh Token");
+            throw new Error("Invalid Refresh Token");
          }
 
          const NewJwt = jwt.sign({
@@ -204,7 +205,24 @@ export const UserLogout = async(rawToken : string)=>{
 };
 
 
-//With this i think we are done with service layer of Authentication.
+//GetMe ->
+
+
+export const getMe = async(user_id :string)=>{
+    try{
+        const getUserDetails = await findUserById(user_id);
+        if(!getUserDetails){
+            throw new Error("User Doesn't Exist");
+        }
+        return {
+            userDetail : getUserDetails
+        };
+          
+    }
+    catch(error){
+        throw error;
+    }
+};
 
 
 
