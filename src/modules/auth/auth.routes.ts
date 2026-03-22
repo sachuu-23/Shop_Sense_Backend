@@ -3,7 +3,7 @@
 
 import { Router } from "express";
 import {RegisterUser,LoginUser,logoutUser,RefreshAccessToken,GetMe} from "./auth.controller";
-
+import {jwtVerification} from "./../../middleware/auth.middleware";
 const router = Router();
 
 //route for register
@@ -16,10 +16,10 @@ router.post("/login",LoginUser);
 router.post("/refresh",RefreshAccessToken);
 
 //route for logout
-router.post("/logout",logoutUser);
+router.post("/logout",jwtVerification , logoutUser);
 
 //route for GetMe
-router.get("/me",GetMe);
+router.get("/me",jwtVerification,GetMe);
 
 
 export default router;

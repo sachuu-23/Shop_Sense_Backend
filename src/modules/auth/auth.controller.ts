@@ -19,7 +19,10 @@ import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth
 
 
       const result = await registerUser({username, email,password});
-      res.status(201).json({result});
+      res.cookie("refreshToken",result.refreshToken,{httpOnly : true});
+      res.status(201).json({
+           accessToken : result.accessToken
+      });
 
     }catch(error){
         if(error instanceof Error && error.message === "User Already Exist"){
@@ -48,8 +51,9 @@ export const LoginUser = async(req:Request, res:Response)=>{
     try{
         const {email ,password} = req.body;
         const result = await UserLogin({email, password});
+        res.cookie("refreshToken",result.refreshToken, {httpOnly : true});
         res.status(200).json({
-            result
+            accessToken : result.accessToken 
         });
     }
     catch(error){
