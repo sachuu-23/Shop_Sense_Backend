@@ -3,7 +3,7 @@
 //In this layer, our task is to take input which is coming from the user and extracting important stuffs according to the requirment and then forwarding it to service layer.
 //This layer also takes care of rsponse and diff status codes.
 
-import {Request, Response, NextFunction} from "express";
+import {Request, Response} from "express";
 import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth.service";
 
 
@@ -39,7 +39,6 @@ import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth
 };
 
 //if you are sending an error from sevice layer to controller in that case during the compile time ts cannot identify the error, so we do need to explicitly add error instanceofe Error && error.message which means if the error is an error messgae and if both are true or not.
-
 
 
 //Login User -> 
@@ -92,7 +91,7 @@ export const logoutUser = async(req:Request,res:Response)=>{
             message : "Unexpected server Error"
         })
      }
-}
+};
 
 
 
