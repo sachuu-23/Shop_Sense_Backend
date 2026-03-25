@@ -19,13 +19,14 @@ import jwt from "jsonwebtoken";
             });
         }
         const decoded = jwt.verify(token,process.env.JWT_SECRET!) as {user_id : string};
-        //after this verifyjwy cotnain decoded payload which is user_id, iat and expiration of token
+        //after this verifyjwt cotnain decoded payload which is user_id, iat and expiration of token
         req.user = {user_id : decoded.user_id};
         //this req.user contains the user id whcih we will need in getme in controller
         //and we defined this req.user format in express.d.ts
         
         next();
     }
+    //here in this error we are catching id decode is wrong , then for that we need to catch the error and resturn the error.
     catch(error){
         res.status(401).json({
             message : "Token is not valid, authenticate again"
