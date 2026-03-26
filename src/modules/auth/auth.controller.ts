@@ -9,7 +9,7 @@ import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth
 
 //Register User->
 
- export const RegisterUser = async(req:Request, res:Response)=>{{}
+ export const RegisterUser = async(req:Request, res:Response)=>{
     try{
         const {username, email, password} = req.body;
         //here we have used the logic of destructuring , whcich means we extract username , email and password from our body.
