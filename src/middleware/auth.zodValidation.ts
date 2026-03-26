@@ -1,5 +1,7 @@
 //10
 
+//So technically Zod concepts contain two things like zod schema and zod validation function which takes diff or multiple schema and then verify it.And that verification is done in authmiddleware.ts file.
+
 import {z} from "zod";
 
 

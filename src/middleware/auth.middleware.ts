@@ -1,8 +1,11 @@
 //9
-//In this file we will be writing logics for jwt middleware verification.
+//In this file we will be writing logics for handling diff middleware checks like jwtVerification and zodValidationCheck 
 
 import {Request, Response, NextFunction} from "express";
 import jwt from "jsonwebtoken";
+import {z} from "zod";
+
+ 
 
  export const jwtVerification = (req:Request, res:Response,next :NextFunction) =>{
     try{
@@ -33,4 +36,21 @@ import jwt from "jsonwebtoken";
         });
 
     }
-};fff
+};
+
+
+//ZodVaidation Function for zod schemas :
+
+export const zodValidationCheck = (schema:z.ZodSchema) =>{
+    return (req:Request, res:Response , next:NextFunction)=>{
+        const result = schema.safeParse(req.body);
+        if(!result.success){
+           return res.status(400).json({
+                result : result.error
+            })
+        }else{
+            next();
+        }
+    };
+};
+

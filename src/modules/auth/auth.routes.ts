@@ -3,14 +3,16 @@
 
 import { Router } from "express";
 import {RegisterUser,LoginUser,logoutUser,RefreshAccessToken,GetMe} from "./auth.controller";
-import {jwtVerification} from "./../../middleware/auth.middleware";
-const router = Router();
+import {jwtVerification,zodValidationCheck} from "./../../middleware/auth.middleware";
+import {RegisterUserSchema,LoginUserSchema} from "../../middleware/auth.zodValidation"
 
-//route for register
-router.post("/register",RegisterUser);
+ const router = Router();
+
+//route for register , middle function with passing parameter is middleware verification
+ router.post("/register",zodValidationCheck(RegisterUserSchema),RegisterUser);
 
 //route for login
-router.post("/login",LoginUser);
+router.post("/login",zodValidationCheck(LoginUserSchema),LoginUser);
 
 //route for refreshToken
 router.post("/refresh",RefreshAccessToken);
