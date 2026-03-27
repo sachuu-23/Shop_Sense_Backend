@@ -77,7 +77,7 @@ export const LoginUser = async(req:Request, res:Response)=>{
 
 
 
-export const logoutUser = async(req:Request,res:Response)=>{//
+export const logoutUser = async(req:Request,res:Response)=>{
      try{
         const token = req.cookies.refreshToken;
         if(!token){
@@ -86,9 +86,7 @@ export const logoutUser = async(req:Request,res:Response)=>{//
             });
         }
         const logout = await UserLogout(token);
-        res.status(200).json({
-            message : logout
-        });
+        res.status(200).json(logout);
 
      }
      catch(error){
