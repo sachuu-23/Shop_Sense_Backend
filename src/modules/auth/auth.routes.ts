@@ -4,7 +4,7 @@
 import { Router } from "express";
 import {RegisterUser,LoginUser,logoutUser,RefreshAccessToken,GetMe} from "./auth.controller";
 import {jwtVerification,zodValidationCheck} from "./../../middleware/auth.middleware";
-import {RegisterUserSchema,LoginUserSchema} from "../../middleware/auth.zodValidation"
+import {RegisterUserSchema,LoginUserSchema} from "../../middleware/auth.zodValidation";
 
  const router = Router();
 
