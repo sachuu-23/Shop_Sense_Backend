@@ -31,6 +31,7 @@ import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth
                 //always send json data in the form of key and value.
 
         }else{
+            console.log(error);
             res.status(500).json({
                 message : "Unexpected Server Error"
             });
@@ -76,7 +77,7 @@ export const LoginUser = async(req:Request, res:Response)=>{
 
 
 
-export const logoutUser = async(req:Request,res:Response)=>{
+export const logoutUser = async(req:Request,res:Response)=>{//
      try{
         const token = req.cookies.refreshToken;
         if(!token){

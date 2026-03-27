@@ -9,4 +9,4 @@ auth.controller.ts ✅
 auth.routes.ts ✅
 auth.middleware.ts ✅
 auth.zodValidation.ts ✅
-app.ts ✅...
+app.ts ✅
