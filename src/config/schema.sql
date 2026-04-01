@@ -32,11 +32,11 @@ CREATE TABLE IF NOT EXISTS product(
     category VARCHAR(200) NOT NULL,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
 
 );
 --PRODUCT VARIANT TABLE 
-CREATE TABLE IF EXISTS product_variant(
+CREATE TABLE IF NOT EXISTS product_variant(
     product_variant_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),--PRIMARY KEY FOR VARIANT TABLE
     product_id UUID REFERENCES product(product_id) ON DELETE CASCADE,
     stock_keeping_unit VARCHAR(255) UNIQUE NOT NULL,
@@ -44,6 +44,6 @@ CREATE TABLE IF EXISTS product_variant(
     product_colour VARCHAR(50),
     product_price Numeric(10,2) NOT NULL, --HERE 2 MEANS IN PRICE AFTER . ADD JUST 2 EXTRA NUMBER eg 45,000.00
     is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMPTZ DEFUALT now(),
+    created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
 );
