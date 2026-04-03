@@ -8,7 +8,8 @@ export interface Product{
     category : string,
     is_active : boolean, 
     created_at : Date,
-    updated_at : Date
+    updated_at : Date,
+    variants :Product_Variant[]
 };
 
 export interface Product_Variant{
@@ -20,6 +21,6 @@ export interface Product_Variant{
     product_price : number,
     is_active : boolean,
     created_at : Date,
-    updated_at : Date,~;
+    updated_at : Date
 
 };
