@@ -17,7 +17,7 @@ export const getAllProducts = async(page:number,limit:number):Promise<Product[]>
 };
 
 
-//GetProductByI
+//GetProductById
 
 export const getProductById = async(productId : string):Promise<Product>=>{
     const result = await pool.query(
