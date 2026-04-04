@@ -83,12 +83,12 @@ export const getVariantByProductId = async(productId :string) : Promise<Product_
 };
 
 
-//GetVariantById   --> this means given a variant id return a single variant
+//GetVariantById   --> this means given a variant id return a single variant, which means we will only return a single rows, so because of that we  have use rows[0]
 
-export const getVariantByid = async(variantId: string)=>{
+export const getVariantByid = async(variantId: string) : Promise<Product_Variant>=>{
     const result = await pool.query(
         `SELECT * FROM product_variant
-        WEHERE product_variant_id = $1`,
+        WHERE product_variant_id = $1`,
         [
             variantId 
         ]
