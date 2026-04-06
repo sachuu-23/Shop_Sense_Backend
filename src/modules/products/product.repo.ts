@@ -17,7 +17,7 @@ export const getAllProducts = async(page:number,limit:number):Promise<Product[]>
 };
 
 
-//GetProductById
+//GetProductById --> Get product details and all its variatns related to it.
 
 export const getProductById = async(productId : string):Promise<Product>=>{
     const result = await pool.query(
@@ -85,7 +85,7 @@ export const getVariantByProductId = async(productId :string) : Promise<Product_
 
 //GetVariantById   --> this means given a variant id return a single variant, which means we will only return a single rows, so because of that we  have use rows[0]
 
-export const getVariantByid = async(variantId: string) : Promise<Product_Variant>=>{
+export const getVariantById = async(variantId: string) : Promise<Product_Variant>=>{
     const result = await pool.query(
         `SELECT * FROM product_variant
         WHERE product_variant_id = $1`,
