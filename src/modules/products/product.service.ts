@@ -45,7 +45,6 @@ export const Get_Variant_By_Id = async(variantId: string)=>{
 
 };
 
-
 //getVariantByProductId
 
 export const Get_Variant_By_Product_Id = async(productId : string)=>{
