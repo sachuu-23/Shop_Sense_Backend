@@ -26,18 +26,18 @@ import {registerUser,UserLogin,UserLogout,refreshAccessToken,getMe} from "./auth
 
     }catch(error){
         if(error instanceof Error && error.message === "User Already Exist"){
-            res.status(409).json({
+           return res.status(409).json({
                 message : "User Already Exist"});
                 //always send json data in the form of key and value.
 
-        }else{
-            console.log(error);
-            res.status(500).json({
+        }
+            console.error(error);
+            return res.status(500).json({
                 message : "Unexpected Server Error"
             });
             
 
-        }
+        
     }
 
 };
@@ -59,15 +59,16 @@ export const LoginUser = async(req:Request, res:Response)=>{
     }
     catch(error){
         if(error instanceof Error && error.message  === "Invalid Credentials"){
-            res.status(401).json({
+            return res.status(401).json({
                 message : "Inavlid Credentials"
             });
         }
-        else{
-            res.status(500).json({
+        
+            console.error(error);
+            return res.status(500).json({
                 message :"Unexpected Server Error"
             });
-        }
+        
     }
 };
 
@@ -90,7 +91,8 @@ export const logoutUser = async(req:Request,res:Response)=>{
 
      }
      catch(error){
-        res.status(500).json({
+        console.error(error);
+       return res.status(500).json({
             message : "Unexpected server Error"
         })
      }
@@ -116,15 +118,16 @@ export const RefreshAccessToken = async(req:Request,res:Response)=>{
         });
     }catch(error){
         if(error instanceof Error && error.message === "Invalid Refresh Token"){
-            res.status(404).json({
+            return res.status(404).json({
                 message : "Invalid Refresh Token"
             });
         }
-        else{
-            res.status(500).json({
+        
+            console.error(error);
+            return res.status(500).json({
                 message : "Unexpected Server Error"
             })
-        };
+        
 
     }
 };
@@ -149,14 +152,15 @@ export const GetMe = async(req:Request, res:Response)=>{
         });
     }catch(error){
          if(error instanceof Error && error.message === "User Doesn't Exist"){
-            res.status(404).json({
+            return res.status(404).json({
                 message : "User Doesn't Exist"
             });
-         }else{
-            res.status(500).json({
+         }
+            console.error(error);
+            return res.status(500).json({
                 message : "Unexpected Server Error"
             })
-        };
+    
     }
 };
 
