@@ -1,6 +1,6 @@
 //3
 import { getAllProducts,getProductById,
-    getVariantByProductId,getVariantById } from "./product.repo";
+    getAllVariantByProductId,getVariantById } from "./product.repo";
 
 //GetAllProducts
 export const Get_All_Products = async(page:number,limit :number)=>{
@@ -47,9 +47,9 @@ export const Get_Variant_By_Id = async(variantId: string)=>{
 
 //getVariantByProductId
 
-export const Get_Variant_By_Product_Id = async(productId : string)=>{
+export const Get_All_Variant_By_Product_Id = async(productId : string)=>{
     try{
-      const get_variant_by_product_id = await getVariantByProductId(productId);
+      const get_variant_by_product_id = await getAllVariantByProductId(productId);
 
       if(!get_variant_by_product_id){
         return [];

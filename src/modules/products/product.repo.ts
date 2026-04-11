@@ -69,7 +69,7 @@ export const getProductById = async(productId : string):Promise<Product>=>{
 
 //GetVariantsByProductId --> This function helps to get all the varniants for a product but not product details , we need this fucntion becuase when then user clicks on diff colour or diff size then we need to fetch them the variant and show them, as they are able to see only 
 
-export const getVariantByProductId = async(productId :string) : Promise<Product_Variant[]> =>{
+export const getAllVariantByProductId = async(productId :string) : Promise<Product_Variant[]> =>{
     const result = await pool.query(
         ` SELECT * FROM product_variant
           WHERE product_id = $1`,
