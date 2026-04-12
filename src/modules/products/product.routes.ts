@@ -12,13 +12,14 @@ const router = Router();//this is we create an instance platform for Router modu
 router.get("/",jwtVerification,getAllProduct);
 
 
-//GetProductByID
-router.get("/:id",jwtVerification,getProductById);
+//GetProductByID -->this routes give every detail of product and its variants everything in detail
+router.get("/:productId",jwtVerification,getProductById);
 
 //getAllVariantByProductId
-router.get("/:id/variants",jwtVerification,getAllVariantsByProductId);
+router.get("/:productId/variants",jwtVerification,getAllVariantsByProductId);
+//well this route just gives us all the variant only no product details at all 
 
 //getVariantById
-router.get("/:variantId",jwtVerification,getVariantById);
+router.get("/single/:variantId",jwtVerification,getVariantById);
 
 export default router;

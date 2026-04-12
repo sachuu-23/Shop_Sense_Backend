@@ -168,7 +168,7 @@ export const refreshAccessToken = async (RefreshToken : string)=>{
             user_id : FindTokenInDatabase.user_id
          },
          process.env.JWT_SECRET!,
-          {expiresIn : "15m"}
+          {expiresIn : "50m"}
 
         );
 
