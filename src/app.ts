@@ -3,7 +3,7 @@ import express, {Request, Response} from "express";
 import authRouter from "./modules/auth/auth.routes";
 import productRouter from "./modules/products/product.routes";
 import cookieParser from "cookie-parser";
-const app = express();
+const app = express();;
 
 app.use(express.json({"limit": "10kb"}));
 app.use(cookieParser());
