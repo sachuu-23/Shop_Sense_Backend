@@ -71,7 +71,7 @@ export const getAllVariantsByProductId = async(req:Request, res:Response)=>{
 };
 
 
-//Get Variant By Variant Id 
+//Get Variant By Variant Id ;;
 
 export const getVariantById = async(req:Request ,res:Response)=>{
     try{
