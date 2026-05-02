@@ -24,6 +24,18 @@ CREATE TABLE IF NOT EXISTS refresh_token(
    created_at TIMESTAMPTZ DEFAULT now()
 );
 
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 --PRODUCT TABLE ->
 CREATE TABLE IF NOT EXISTS product(
     product_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -46,4 +58,41 @@ CREATE TABLE IF NOT EXISTS product_variant(
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+--INVENTORY TABLE
+CREATE TABLE IF NOT EXISTS inventory(
+    inventory_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    product_variant_id UUID UNIQUE REFERENCES  product_variant(product_variant_id) ON DELETE CASCADE,
+    available_qty INTEGER NOT NULL DEFAULT 0 CHECK (available_qty >= 0),
+    reserved_qty INTEGER NOT NULL DEFAULT 0 CHECK (reserved_qty >= 0),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+--CART TABLE
+CREATE TABLE IF NOT EXISTS cart(
+    cart_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    Updated_at TIMESTAMPTZ DEFAULT now()
 );
