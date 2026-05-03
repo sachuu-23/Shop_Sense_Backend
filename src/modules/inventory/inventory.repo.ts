@@ -22,8 +22,9 @@ return result.rows[0] ?? null ;//if left is null or undefined then return right 
 
 
 
-
-export const reserveStock = async(quantity:number,variantId : string)=>{
+//Reserve Stock 
+//This function helps us in locking a specific vavriant row, for a specific user, so that nmo other client can access this variant row in database 
+export const reserveStock = async(quantity:number,variantId : string) : Promise<void>=>{
     try{
         await pool.query(`BEGIN`);
         const result = await pool.query(`SELECT product_variant_id,available_qty FROM inventory WHERE product_variant_id = $1
@@ -54,3 +55,7 @@ export const reserveStock = async(quantity:number,variantId : string)=>{
         }
 
 };
+
+
+
+// 
