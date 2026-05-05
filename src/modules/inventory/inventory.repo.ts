@@ -81,3 +81,16 @@ export const commitStock = async(quantity : number , variantId : string) :Promis
         throw error;
     }
 };
+
+
+//Release Stock 
+//In this function our main focus is to decrease the reserved quantity and increase the available quantity
+
+      export const releaseStock = async(quantity :number , variantId : string):Promise<void> =>{
+        try{
+        await pool.query(`BEGIN`);
+        await 
+        }
+      }
+
+
