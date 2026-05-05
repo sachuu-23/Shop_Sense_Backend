@@ -61,14 +61,23 @@ export const reserveStock = async(quantity:number,variantId : string) : Promise<
 // Commit Stock 
 //In this fucntion we try to query the database and our agenda is to actaully reduce the stock of the variant by fetching it and then reducing the reserved from the actual quantity 
 
-export const CommitStock = async(quantity : number , variantId : string) :Promise<void>=>{
+export const commitStock = async(quantity : number , variantId : string) :Promise<void>=>{
     // Start with begin as we are inside the transactions
     try{
      await pool.query(`BEGIN`);
-     
+     await pool.query(`UPDATE inventory
+        SET reserved_qty = reserved_qty - $1
+        WHERE product_variant_id = $2
+        `,
+    [
+        quantity ,
+        variantId
+    ]);
 
-
-
+    await pool.query(`COMMIT`);
     }
-
+    catch(error){
+        await pool.query(`ROLLBACK`);
+        throw error;
+    }
 };
