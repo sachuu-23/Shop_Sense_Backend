@@ -58,4 +58,17 @@ export const reserveStock = async(quantity:number,variantId : string) : Promise<
 
 
 
-// 
+// Commit Stock 
+//In this fucntion we try to query the database and our agenda is to actaully reduce the stock of the variant by fetching it and then reducing the reserved from the actual quantity 
+
+export const CommitStock = async(quantity : number , variantId : string) :Promise<void>=>{
+    // Start with begin as we are inside the transactions
+    try{
+     await pool.query(`BEGIN`);
+     
+
+
+
+    }
+
+};
