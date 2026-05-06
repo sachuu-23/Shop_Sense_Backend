@@ -90,13 +90,19 @@ export const commitStock = async(quantity : number , variantId : string) :Promis
         try{
         await pool.query(`BEGIN`);
         await pool.query(`UPDATE inventory
-            SET reserved_qty = reserved_qty - $1
-            available_qty = available-qty + $1
-            WHERE product_varaint_id = $2,
+            SET reserved_qty = reserved_qty - $1,
+            available_qty = available_qty + $1
+            WHERE product_variant_id = $2
             `,[
                 quantity ,
                 variantId
-            ])
+            ]);
+
+            await pool.query(`COMMIT`);
+        }
+        catch(error){
+            await pool.query(`ROLLBACK`);
+            throw error;
         }
       };
 
