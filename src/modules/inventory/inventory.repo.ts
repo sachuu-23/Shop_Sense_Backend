@@ -88,7 +88,7 @@ export const commitStock = async(quantity : number , variantId : string) :Promis
 
       export const releaseStock = async(quantity :number , variantId : string):Promise<void> =>{
         try{
-        await pool.query(`BEGIN`);
+        await pool.query(`BEGIN`);;
         await pool.query(`UPDATE inventory
             SET reserved_qty = reserved_qty - $1,
             available_qty = available_qty + $1
